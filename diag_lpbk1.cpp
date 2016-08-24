@@ -80,6 +80,7 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
    volatile btUnsigned32bitInt *pInput    = (volatile btUnsigned32bitInt *)pInputUsrVirt;
    volatile btUnsigned32bitInt *pEndInput = (volatile btUnsigned32bitInt *)pInput +
                                      	 	(m_pMyApp->InputSize() / sizeof(btUnsigned32bitInt));
+   
 
   //---- turbo test  read from file
   ifstream trb_file("/home/user/Downloads/out.dat");
@@ -321,9 +322,10 @@ int cnt_while = 0;
 
 	    SavePerfMonitors();
 
+
 	    // Verify the buffers
 	    if ( ::memcmp((void *)pInputUsrVirt, (void *)pOutputUsrVirt, NumCacheLines) != 0 ){
-	 	   cerr << "Data mismatch in Input and Output buffers.\n";
+	 	   //cerr << "Data mismatch in Input and Output buffers.\n";
 
       int i=0;
       for ( i=0; i <1048558 ; i++) {
