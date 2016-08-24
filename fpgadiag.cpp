@@ -1125,6 +1125,15 @@ std::string INLB::CalcReadBandwidth(const NLBCmdLine &cmd)
 
    double bw = (Rds * (CL(1) * Hz)) / Ticks;
 
+   cout <<endl<< "double bw = (Rds * (CL(1) * Hz)) / Ticks;"<<endl;
+   cout <<"startpenalty: "<<startpenalty<<endl;
+   cout <<"endpenalty: "<<endpenalty<<endl;
+   cout <<"rawticks: "<<rawticks<<endl;
+   cout <<"ticks: "<<ticks<<endl;
+   cout <<"Rds: "<<Rds<<endl;
+   cout <<"CL(1): "<<CL(1)<<endl;
+   cout <<"Hz: "<<Hz<<endl;
+
    bw /= giga;
 
    std::ostringstream oss;
@@ -1162,6 +1171,15 @@ std::string INLB::CalcWriteBandwidth(const NLBCmdLine &cmd)
    const double Hz    = (double)clockfreq;
 
    double bw = (Wrs * (CL(1) * Hz)) / Ticks;
+
+   cout <<endl<< "(write) double bw = (Wrs * (CL(1) * Hz)) / Ticks;"<<endl;
+   cout <<"startpenalty: "<<startpenalty<<endl;
+   cout <<"endpenalty: "<<endpenalty<<endl;
+   cout <<"rawticks: "<<rawticks<<endl;
+   cout <<"ticks: "<<ticks<<endl;
+   cout <<"RdsWrs: "<<Wrs<<endl;
+   cout <<"CL(1): "<<CL(1)<<endl;
+   cout <<"Hz: "<<Hz<<endl;
 
    bw /= giga;
 
