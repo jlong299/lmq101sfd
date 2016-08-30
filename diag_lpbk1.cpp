@@ -354,8 +354,8 @@ int cnt_while = 0;
        cout << endl;
 
       ofstream trb_dec("/home/user/Downloads/dec_out.dat");
-      for (int kk=0; kk < 128; kk++) {
-        trb_dec << (void *)pOutputUsrVirt[kk];
+      for (int kk=0; kk < (128*2500); kk++) {
+        trb_dec << pOutputUsrVirt[kk];
       }
       trb_dec << endl;
       trb_dec.close();
