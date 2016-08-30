@@ -83,7 +83,7 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
    
 
   //---- turbo test  read from file
-  ifstream trb_file("/home/user/Downloads/out.dat");
+  ifstream trb_file("/home/user/Downloads/out_bk0829.dat");
   //trb_file.getline(*pInput,1);
   int chartest;
   int ii;
@@ -352,6 +352,14 @@ int cnt_while = 0;
          cout <<endl << coutFL <<"mem Out ["<<kk<<"] = "<<(void *)pOutputUsrVirt[kk];
        }
        cout << endl;
+
+      ofstream trb_dec("/home/user/Downloads/dec_out.dat");
+      for (int kk=0; kk < 128; kk++) {
+        trb_dec << (void *)pOutputUsrVirt[kk];
+      }
+      trb_dec << endl;
+      trb_dec.close();
+
 
         //ofstream fpga_out_file("/home/user/fpga_out.dat");
         int cnt_fpga_out = 0;
