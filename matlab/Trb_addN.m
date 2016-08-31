@@ -1,9 +1,15 @@
+% Add noise to data
+% Data source file : din_ori_4b.dat 
+%   data description : 4bit soft info data as Turbo decoder input, 
+%   e.g. 9,7,9,...
+% Output file :  din_N_4b.dat
+%   description :  input + noise 4bit.  e.g. 3,15,0,12,...  
 
 clear all;
 din_ori_4b = load('din_ori_4b.dat');
 din_ori = 8 - din_ori_4b;
 
-SNR = -2;
+SNR = 0;
 %din_N = awgn( din_ori, SNR);
 
 % Noise 
