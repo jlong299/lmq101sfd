@@ -83,7 +83,8 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
    
 
   //---- turbo test  read from file
-  ifstream trb_file("/home/user/Downloads/out_bk0829.dat");
+  ifstream trb_file("/home/user/Downloads/din_N_4b_n2.dat");
+  //ifstream trb_file("/home/user/Downloads/out_bk0829.dat");
   //trb_file.getline(*pInput,1);
   int chartest;
   int ii;
@@ -335,11 +336,11 @@ int cnt_while = 0;
         }
       }
  //i =0;
-      // for (int kk =0; kk < 0+12 ;kk++) {
-      //    cout <<endl << coutFL <<"mem In ["<<kk<<"] = "<<(void *)pInputUsrVirt[kk];
-      //    //cout <<endl << coutFL <<"mem Out ["<<kk<<"] = "<<(void *)pOutputUsrVirt[kk];
-      //  }
-      //  cout << endl;
+      for (int kk =0; kk < 0+12 ;kk++) {
+         cout <<endl << coutFL <<"mem In ["<<kk<<"] = "<<(void *)pInputUsrVirt[kk];
+         //cout <<endl << coutFL <<"mem Out ["<<kk<<"] = "<<(void *)pOutputUsrVirt[kk];
+       }
+       cout << endl;
 
        for (int kk =0; kk < 0+12 ;kk++) {
          //cout <<endl << coutFL <<"mem In ["<<kk<<"] = "<<(void *)pInputUsrVirt[kk];
@@ -347,19 +348,50 @@ int cnt_while = 0;
        }
        cout << endl;
 
-       for (int kk =0+128; kk < 0+12+128 ;kk++) {
-         //cout <<endl << coutFL <<"mem In ["<<kk<<"] = "<<(void *)pInputUsrVirt[kk];
-         cout <<endl << coutFL <<"mem Out ["<<kk<<"] = "<<(void *)pOutputUsrVirt[kk];
+       // for (int kk =0+128; kk < 0+12+128 ;kk++) {
+       //   //cout <<endl << coutFL <<"mem In ["<<kk<<"] = "<<(void *)pInputUsrVirt[kk];
+       //   cout <<endl << coutFL <<"mem Out ["<<kk<<"] = "<<(void *)pOutputUsrVirt[kk];
+       // }
+       // cout << endl;
+
+      ifstream src_file("/home/user/Downloads/out_bk0829.dat");
+
+       int src_d[1024];
+       int fget1int;
+       for (int i=0; i<(1024*3); i++) {
+        src_file >> fget1int;
+        if (i%3==0){
+          if ( (fget1int & 0x00000008) == 0 )
+            src_d[ (i/3) ] = 1;
+          else
+            src_d[ (i/3) ] = 0;
+        }
+        
        }
-       cout << endl;
+       src_file.close();
 
-      ofstream trb_dec("/home/user/Downloads/dec_out.dat");
-      for (int kk=0; kk < (128*2500); kk++) {
-        trb_dec << pOutputUsrVirt[kk];
-      }
-      trb_dec << endl;
-      trb_dec.close();
+       // for (int i=0; i<16; i++)
+       //    cout << endl <<"src_d["<<i<<"]: "<<src_d[i] <<endl;
 
+
+        int t_1b;
+        int cnt_src = 0;
+        int err_num = 0;
+        int cout_1st = 1;
+        for (int k=0; k<128; k++){
+          for (int i=0; i<8; i++) {
+              t_1b = (int)(pOutputUsrVirt[k]>>i) & 0x00000001;
+              if (src_d[cnt_src++] != t_1b){
+                if (cout_1st == 1) {
+                  cout << endl <<cnt_src <<endl;
+                  cout_1st = 0;
+                } 
+                err_num++;
+              }
+              //cout <<endl <<"t_1b: "<<t_1b<<endl;
+          }
+        }
+        cout <<endl<<"err_num: "<<err_num<<"  BER: "<<(double)err_num/1024<<endl;
 
         //ofstream fpga_out_file("/home/user/fpga_out.dat");
         int cnt_fpga_out = 0;
