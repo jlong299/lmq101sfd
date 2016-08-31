@@ -9,7 +9,7 @@ clear all;
 din_ori_4b = load('din_ori_4b.dat');
 din_ori = 8 - din_ori_4b;
 
-SNR = -2;
+SNR = 0;
 %din_N = awgn( din_ori, SNR);
 
 % Noise 
