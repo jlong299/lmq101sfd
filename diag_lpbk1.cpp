@@ -45,11 +45,18 @@
 #include "diag-common.h"
 #include "nlb-specific.h"
 #include "diag-nlb-common.h"
+//#include "nosie.h"
 
 #define coutFL " line "<< __LINE__<<" |  "
 // #define coutFL __FILE__ <<" line "<< __LINE__
 // non-continuous mode.
 // no cache treatment.
+
+ int add_noise(int t)
+ {
+  return t;
+ }
+
 btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
 {
    btInt 	 res = 0;
@@ -82,9 +89,11 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
                                      	 	(m_pMyApp->InputSize() / sizeof(btUnsigned32bitInt));
    
 
+  int tt = add_noise(5);
+  cout << endl << "add_noise : "<<tt<<endl;
   //---- turbo test  read from file
-  ifstream trb_file("/home/user/Downloads/din_N_4b_n2.dat");
-  //ifstream trb_file("/home/user/Downloads/out_bk0829.dat");
+  //ifstream trb_file("/home/user/Downloads/din_N_4b_n2.dat");
+  ifstream trb_file("/home/user/Downloads/out_bk0829.dat");
   //trb_file.getline(*pInput,1);
   int chartest;
   int ii;
