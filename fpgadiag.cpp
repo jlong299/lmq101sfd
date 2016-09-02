@@ -659,38 +659,38 @@ int main(int argc, char *argv[])
        return 0; // Exit after displaying the help menu
       }
 
-  cout << endl
-     << "Config of the test:" << endl;
+  // cout << endl
+  //    << "Config of the test:" << endl;
 
-     cout << "  copyright: " << gCmdLine.copyright << endl
-     << "  mode: " << gCmdLine.mode << endl
-     << "  title: " << gCmdLine.title << endl
-     << "  cmdflags: " << gCmdLine.cmdflags << endl
-     << "  dispflags: " << gCmdLine.dispflags << endl
-     << "  iter: " << gCmdLine.iter << endl
-     << "  begincls: " << gCmdLine.begincls << endl
-     << "  endcls: " << gCmdLine.endcls << endl
-     << "  multicls: " << gCmdLine.multicls << endl
-     << "  dsmphys: " << gCmdLine.dsmphys << endl
-     << "  srcphys: " << gCmdLine.srcphys << endl
-     << "  dstphys: " << gCmdLine.dstphys << endl
-     << "  clkfreq: " << gCmdLine.clkfreq << endl << endl
+  //    cout << "  copyright: " << gCmdLine.copyright << endl
+  //    << "  mode: " << gCmdLine.mode << endl
+  //    << "  title: " << gCmdLine.title << endl
+  //    << "  cmdflags: " << gCmdLine.cmdflags << endl
+  //    << "  dispflags: " << gCmdLine.dispflags << endl
+  //    << "  iter: " << gCmdLine.iter << endl
+  //    << "  begincls: " << gCmdLine.begincls << endl
+  //    << "  endcls: " << gCmdLine.endcls << endl
+  //    << "  multicls: " << gCmdLine.multicls << endl
+  //    << "  dsmphys: " << gCmdLine.dsmphys << endl
+  //    << "  srcphys: " << gCmdLine.srcphys << endl
+  //    << "  dstphys: " << gCmdLine.dstphys << endl
+  //    << "  clkfreq: " << gCmdLine.clkfreq << endl << endl
 
-     << "  defaults.mincls: " << gCmdLine.defaults.mincls << endl
-     << "  defaults.maxcls: " << gCmdLine.defaults.maxcls << endl
-     << "  defaults.begincls: " << gCmdLine.defaults.begincls << endl
-     << "  defaults.endcls: " << gCmdLine.defaults.endcls << endl
-     << "  defaults.multicls: " << gCmdLine.defaults.multicls << endl
-     << "  defaults.dsmphys: " << gCmdLine.defaults.dsmphys << endl
-     << "  defaults.srcphys: " << gCmdLine.defaults.srcphys << endl
-     << "  defaults.dstphys: " << gCmdLine.defaults.dstphys << endl
-     << "  defaults.clkfreq: " << gCmdLine.defaults.clkfreq << endl
+  //    << "  defaults.mincls: " << gCmdLine.defaults.mincls << endl
+  //    << "  defaults.maxcls: " << gCmdLine.defaults.maxcls << endl
+  //    << "  defaults.begincls: " << gCmdLine.defaults.begincls << endl
+  //    << "  defaults.endcls: " << gCmdLine.defaults.endcls << endl
+  //    << "  defaults.multicls: " << gCmdLine.defaults.multicls << endl
+  //    << "  defaults.dsmphys: " << gCmdLine.defaults.dsmphys << endl
+  //    << "  defaults.srcphys: " << gCmdLine.defaults.srcphys << endl
+  //    << "  defaults.dstphys: " << gCmdLine.defaults.dstphys << endl
+  //    << "  defaults.clkfreq: " << gCmdLine.defaults.clkfreq << endl
 
-     << "  defaults.va: " << gCmdLine.defaults.va << endl
-     << "  defaults.vl0: " << gCmdLine.defaults.vl0 << endl
-     << "  defaults.vh0: " << gCmdLine.defaults.vh0 << endl
-     << "  defaults.vh1: " << gCmdLine.defaults.vh1 << endl
-     ;
+  //    << "  defaults.va: " << gCmdLine.defaults.va << endl
+  //    << "  defaults.vl0: " << gCmdLine.defaults.vl0 << endl
+  //    << "  defaults.vh0: " << gCmdLine.defaults.vh0 << endl
+  //    << "  defaults.vh1: " << gCmdLine.defaults.vh1 << endl
+  //    ;
 
    cout << endl
         << "FpgaDiag - FPGA Diagnostics Test:" << endl;
@@ -1125,14 +1125,14 @@ std::string INLB::CalcReadBandwidth(const NLBCmdLine &cmd)
 
    double bw = (Rds * (CL(1) * Hz)) / Ticks;
 
-   cout <<endl<< "double bw = (Rds * (CL(1) * Hz)) / Ticks;"<<endl;
-   cout <<"startpenalty: "<<startpenalty<<endl;
-   cout <<"endpenalty: "<<endpenalty<<endl;
-   cout <<"rawticks: "<<rawticks<<endl;
-   cout <<"ticks: "<<ticks<<endl;
-   cout <<"Rds: "<<Rds<<endl;
-   cout <<"CL(1): "<<CL(1)<<endl;
-   cout <<"Hz: "<<Hz<<endl;
+   // cout <<endl<< "double bw = (Rds * (CL(1) * Hz)) / Ticks;"<<endl;
+   // cout <<"startpenalty: "<<startpenalty<<endl;
+   // cout <<"endpenalty: "<<endpenalty<<endl;
+   // cout <<"rawticks: "<<rawticks<<endl;
+   // cout <<"ticks: "<<ticks<<endl;
+   // cout <<"Rds: "<<Rds<<endl;
+   // cout <<"CL(1): "<<CL(1)<<endl;
+   // cout <<"Hz: "<<Hz<<endl;
 
    bw /= giga;
 
@@ -1172,14 +1172,14 @@ std::string INLB::CalcWriteBandwidth(const NLBCmdLine &cmd)
 
    double bw = (Wrs * (CL(1) * Hz)) / Ticks;
 
-   cout <<endl<< "(write) double bw = (Wrs * (CL(1) * Hz)) / Ticks;"<<endl;
-   cout <<"startpenalty: "<<startpenalty<<endl;
-   cout <<"endpenalty: "<<endpenalty<<endl;
-   cout <<"rawticks: "<<rawticks<<endl;
-   cout <<"ticks: "<<ticks<<endl;
-   cout <<"RdsWrs: "<<Wrs<<endl;
-   cout <<"CL(1): "<<CL(1)<<endl;
-   cout <<"Hz: "<<Hz<<endl;
+   // cout <<endl<< "(write) double bw = (Wrs * (CL(1) * Hz)) / Ticks;"<<endl;
+   // cout <<"startpenalty: "<<startpenalty<<endl;
+   // cout <<"endpenalty: "<<endpenalty<<endl;
+   // cout <<"rawticks: "<<rawticks<<endl;
+   // cout <<"ticks: "<<ticks<<endl;
+   // cout <<"RdsWrs: "<<Wrs<<endl;
+   // cout <<"CL(1): "<<CL(1)<<endl;
+   // cout <<"Hz: "<<Hz<<endl;
 
    bw /= giga;
 

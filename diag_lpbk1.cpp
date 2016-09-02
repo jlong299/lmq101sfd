@@ -45,17 +45,14 @@
 #include "diag-common.h"
 #include "nlb-specific.h"
 #include "diag-nlb-common.h"
-//#include "nosie.h"
+#include "noise.h"
+#include <math.h>
 
 #define coutFL " line "<< __LINE__<<" |  "
 // #define coutFL __FILE__ <<" line "<< __LINE__
 // non-continuous mode.
 // no cache treatment.
 
- int add_noise(int t)
- {
-  return t;
- }
 
 btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
 {
@@ -64,13 +61,13 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
    uint_type mcl = cmd.multicls;
    uint_type NumCacheLines = cmd.begincls;
 
-   cout << endl;
-   cout << endl << "Some variables :" <<endl;
-   cout <<endl <<coutFL<<" btWSSize sz = " << sz ;
-   cout <<endl <<coutFL<<" uint_type mcl = " << mcl ;
-   cout <<endl <<coutFL<<" uint_type NumCacheLines = " << NumCacheLines ;
-   cout <<endl <<coutFL<<" cmd.endcls = " << cmd.endcls ;
-   cout << endl;
+   // cout << endl;
+   // cout << endl << "Some variables :" <<endl;
+   // cout <<endl <<coutFL<<" btWSSize sz = " << sz ;
+   // cout <<endl <<coutFL<<" uint_type mcl = " << mcl ;
+   // cout <<endl <<coutFL<<" uint_type NumCacheLines = " << NumCacheLines ;
+   // cout <<endl <<coutFL<<" cmd.endcls = " << cmd.endcls ;
+   // cout << endl;
 
    const btInt StopTimeoutMillis = 250;
    btInt MaxPoll = StopTimeoutMillis;
@@ -88,9 +85,6 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
    volatile btUnsigned32bitInt *pEndInput = (volatile btUnsigned32bitInt *)pInput +
                                      	 	(m_pMyApp->InputSize() / sizeof(btUnsigned32bitInt));
    
-
-  int tt = add_noise(5);
-  cout << endl << "add_noise : "<<tt<<endl;
   //---- turbo test  read from file
   //ifstream trb_file("/home/user/Downloads/din_N_4b_n2.dat");
   ifstream trb_file("/home/user/Downloads/out_bk0829.dat");
@@ -100,7 +94,7 @@ btInt CNLBLpbk1::RunTest(const NLBCmdLine &cmd)
   int jj=0;
   int i_eop=0;
   int k_numTrb=0;
-  printf("mem start %p\n",pInput);
+  printf("\nmem start %p\n",pInput);
   while(k_numTrb < 2620)
   {
     while(!trb_file.eof())
@@ -332,19 +326,24 @@ int cnt_while = 0;
 
 	    SavePerfMonitors();
 
-
+      
+      ifstream ori_file("/home/user/Downloads/src_trb.dat");
+      int LenFileOneTime = 3200;
+      uint8_t cSrcFileArray [ LenFileOneTime ];
+      uint8_t * cSrcFile = cSrcFileArray;
 	    // Verify the buffers
-	    if ( ::memcmp((void *)pInputUsrVirt, (void *)pOutputUsrVirt, NumCacheLines) != 0 ){
+	    //if ( ::memcmp((void *)pInputUsrVirt, (void *)pOutputUsrVirt, NumCacheLines) != 0 ){
 	 	   //cerr << "Data mismatch in Input and Output buffers.\n";
 
-      int i=0;
-      for ( i=0; i <1048558 ; i++) {
-        if ( ((void *)pInputUsrVirt[i]) != ((void *)pOutputUsrVirt[i])  ) {
-          cout <<endl <<"!!!  i = " << i <<endl;
-          break;
-        }
+      // One 1024 turbo decoder input : 3084 4bits
+      // 126*25 -3084 = 66;    128*25 = 3200
+      ReadFileTurbo(ori_file, cSrcFile, LenFileOneTime);
+      ori_file.close();
+      for (int kk=3100; kk<3200; kk++)
+      {
+        cout <<endl <<"File read ["<<kk<<"] : " <<cSrcFile[kk];
       }
- //i =0;
+
       for (int kk =0; kk < 0+12 ;kk++) {
          cout <<endl << coutFL <<"mem In ["<<kk<<"] = "<<(void *)pInputUsrVirt[kk];
          //cout <<endl << coutFL <<"mem Out ["<<kk<<"] = "<<(void *)pOutputUsrVirt[kk];
@@ -424,9 +423,9 @@ int cnt_while = 0;
         //fpga_out_file.close();
 
 
-	       ++res;
-	       break;
-	    }
+	    //    ++res;
+	    //    break;
+	    // }
 
 
 
@@ -506,4 +505,46 @@ void  CNLBLpbk1::PrintOutput(const NLBCmdLine &cmd, wkspc_size_type cls)
 			  << setw(14) << CalcWriteBandwidth(cmd);
 	}
 	cout << endl;
+}
+
+void  CNLBLpbk1::ReadFileTurbo(ifstream &RdFile, uint8_t *out, int TotalLen)
+{
+  // Read all char in RdFile to *out, then add 0x00 to tail to get TotalLen length.
+
+  // There are 512 bits in one CL. RdFile >> char gets 4bits once. 
+  // Turbo decoder needs 12bits input once.
+  // 512 / 12 = 42.  42*(12/4)=126.  
+  // So 126 times "RdFile >> char" each CL. (128-126)= 2 4bits in tail
+  //    ---                                           --
+      //ifstream RdFile("/home/user/Downloads/out_bk0829.dat");
+
+  int outLen = 0;
+  int k = 0;
+  while(!RdFile.eof())
+  {
+    //So 126 times "RdFile >> char" each CL. (128-126)= 2 4bits in tail
+    for (k=0; k<126; k++)
+    {
+      if(RdFile.eof())
+        break;
+      RdFile >> *(out++);
+      outLen++;
+    }
+    //(128-126)= 2 4bits in tail
+    *out++ = 0;
+    outLen++;
+    *out++ = 0;
+    outLen++;
+  }
+  if (outLen > TotalLen)
+    cout <<endl << coutFL << "Warning: Out length > Total length" <<endl;
+
+  // Add 0x00 to tail
+  while ((outLen++) < TotalLen)
+  {
+    *(out++) = 0;
+  }
+
+  RdFile.clear();
+  RdFile.seekg(0,ios::beg);
 }

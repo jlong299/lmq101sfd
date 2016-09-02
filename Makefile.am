@@ -49,7 +49,9 @@ diag-nlb-common.cpp \
 diag-nlb-common.h \
 fpgadiagDefs.h \
 nlb-specific.h \
-utils.h
+utils.h \
+noise.cpp \
+noise.h
 
 fpgadiag_CPPFLAGS=\
 -I$(top_srcdir)/include \

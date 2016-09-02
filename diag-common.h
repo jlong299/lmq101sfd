@@ -291,6 +291,7 @@ public:
     {}
    virtual btInt RunTest(const NLBCmdLine &cmd);
    virtual void  PrintOutput(const NLBCmdLine &cmd, wkspc_size_type cls);
+   virtual void  ReadFileTurbo(ifstream &RdFile, uint8_t *out, int TotalLen);
 };
 class CNLBRead : public INLB
 {
